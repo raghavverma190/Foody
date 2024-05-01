@@ -2,11 +2,14 @@ package com.example.foody.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.foody.data.database.entities.FavouritesEntity
 import com.example.foody.databinding.FavouriteRecipesRowLayoutBinding
+import com.example.foody.ui.fragments.favorites.FavouriteRecipesFragmentDirections
 import com.example.foody.util.RecipesDiffUtil
+import kotlinx.android.synthetic.main.favourite_recipes_row_layout.view.*
 
 class FavouriteRecipesAdapter : RecyclerView.Adapter<FavouriteRecipesAdapter.MyViewHolder>() {
 
@@ -42,6 +45,17 @@ class FavouriteRecipesAdapter : RecyclerView.Adapter<FavouriteRecipesAdapter.MyV
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val selectedRecipe = favouriteRecipes[position]
         holder.bind(selectedRecipe)
+
+        /**
+         * Single click listener
+         */
+        holder.itemView.favouriteRecipesRowLayout.setOnClickListener {
+            val action =
+                FavouriteRecipesFragmentDirections.actionFavouriteRecipesFragmentToDetailsActivity(
+                    selectedRecipe.result
+                )
+            holder.itemView.findNavController().navigate(action)
+        }
 
     }
 
